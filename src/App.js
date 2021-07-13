@@ -11,8 +11,10 @@ const pokemonApi = ()=>{
   axios.get('https://pokeapi.co/api/v2/pokemon/')
   .then((response)=>{
     let data = response.data.results;
+    console.log(response.data)
     setPokemon(data);
   })
+  .catch(error=> console.log(error))
   
 }
 
