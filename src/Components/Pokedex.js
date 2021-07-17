@@ -11,23 +11,25 @@ import {
   Spinner,
 } from "react-bootstrap";
 
-const getPokemonCard = () => {
-  return (
-    <Card style={{ width: "18rem" }} className="m-2">
-      <Card.Img variant="top" src="holder.js/100px180" />
-      <Card.Body>
-        <Card.Title>Card Title</Card.Title>
-        <Card.Text>
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
-        </Card.Text>
-        <Button variant="primary">Go somewhere</Button>
-      </Card.Body>
-    </Card>
-  );
-};
-const Pokedex = () => {
+const Pokedex = (props) => {
   const [pokemonData, setPokemonData] = useState(Mockdata);
+  const getPokemonCard = (pokemonId) => {
+    console.log(pokemonData[`${pokemonId}`]);
+    const{id,name}= pokemonData[`${pokemonId}`]
+    const sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
+    const {history} = props
+    return (
+      <Col xs={12} sm={6} md={4} key={pokemonId}>
+        <Card style={{ width: "18rem" }} className="m-2" onClick={()=>history.push(`${pokemonId}`)} >
+          <Card.Img variant="top" src={sprite} />
+          <Card.Body>
+            <Card.Title>{`${id}. ${name}`}</Card.Title>
+            <Button variant="primary">Go somewhere</Button>
+          </Card.Body>
+        </Card>
+      </Col>
+    );
+  };
 
   return (
     <>
@@ -39,15 +41,9 @@ const Pokedex = () => {
       {pokemonData ? (
         <Container>
           <Row>
-            <Col xs={12} sm={4}>
-              {getPokemonCard()}
-            </Col>
-            <Col xs={12} sm={4}>
-              {getPokemonCard()}
-            </Col>
-            <Col xs={12} sm={4}>
-              {getPokemonCard()}
-            </Col>
+            {Object.keys(pokemonData).map((pokemonId) => {
+              return getPokemonCard(pokemonId);
+            })}
           </Row>
         </Container>
       ) : (
