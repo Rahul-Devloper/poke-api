@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from "react";
-import { Button, Container, Navbar, Spinner } from "react-bootstrap";
-import axios from "axios"
+import { Container, Navbar, Spinner, Button } from "react-bootstrap";
+import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Pokemon.css";
 import { useParams } from "react-router-dom";
@@ -10,14 +10,15 @@ const Pokemon = (props) => {
   const [pokemon, setPokemon] = useState();
   useEffect(() => {
     axios
-    .get(`https://pokeapi.co/api/v2/pokemon/${pokemonId}/`)
-    .then(function(response){
-      const {data} = response;
-    })
-    .catch(function(error){
-      setPokemon(false)
-    });
-  }, [pokemonId])
+      .get(`https://pokeapi.co/api/v2/pokemon/${pokemonId}/`)
+      .then(function (response) {
+        const { data } = response;
+        setPokemon(data)
+      })
+      .catch(function (error) {
+        setPokemon(false);
+      });
+  }, [pokemonId]);
 
   const generatePokemonJsx = (pokemon) => {
     const { name, id, species, height, weight, types, sprites } = pokemon;
@@ -58,13 +59,15 @@ const Pokemon = (props) => {
           <Navbar.Brand href="/">Pokedex</Navbar.Brand>
         </Container>
       </Navbar>
-      <h1>{`Welcome to ${pokemon} stats page`}</h1>
-      {pokemon === undefined 
-      && <Spinner animation="border" role="status">
+      <h1>{`Welcome to stats page`}</h1>
+      {pokemon === undefined && (
+        <Spinner animation="border" role="status">
           <span className="visually-hidden">Loading...</span>
-        </Spinner>}
-        {pokemon !== undefined && pokemon && generatePokemonJsx(pokemon)}
+        </Spinner>
+      )}
+      {pokemon !== undefined && pokemon && generatePokemonJsx(pokemon)}
       {pokemon === false && <h1>Not Found</h1>}
+      <Button href='/'>Click Here to Go Back </Button>
     </div>
   );
 };
