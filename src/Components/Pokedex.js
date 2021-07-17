@@ -1,6 +1,6 @@
 import React from "react";
-import { useState } from "react";
-import Mockdata from "./Mockdata";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import {
   Navbar,
   Container,
@@ -12,16 +12,35 @@ import {
 } from "react-bootstrap";
 
 const Pokedex = (props) => {
-  const [pokemonData, setPokemonData] = useState(Mockdata);
+  const [pokemonData, setPokemonData] = useState({});
+  useEffect(async () => {
+    axios
+      .get("https://pokeapi.co/api/v2/pokemon/")
+      .then((response) => {
+        let data = response.data.results;
+        console.log(data);
+        const newPokemonData = {};
+        data.forEach((pokemon, index) => {
+          newPokemonData[index + 1] = {
+            id: index + 1,
+            name: pokemon.name,
+            sprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
+              index + 1
+            }.png`,
+          };
+        });
+        setPokemonData(newPokemonData);
+      })
+      .catch((error) => console.log(error));
+  }, []);
   const getPokemonCard = (pokemonId) => {
     console.log(pokemonData[`${pokemonId}`]);
-    const { id, name } = pokemonData[`${pokemonId}`];
-    const sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
+    const { id, name, sprite } = pokemonData[pokemonId];
     const { history } = props;
     return (
       <Col xs={12} sm={6} md={4} key={pokemonId}>
         <Card
-          style={{ width: "18rem", textTransform:'capitalize' }}
+          style={{ width: "18rem", textTransform: "capitalize" }}
           className="m-2"
           onClick={() => history.push(`${pokemonId}`)}
         >
