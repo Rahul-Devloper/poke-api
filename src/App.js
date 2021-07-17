@@ -1,32 +1,20 @@
-import { useState } from 'react';
-import axios from 'axios';
-import Pokemon from './Components/Pokemon';
+import React from "react";
+import Pokedex from "./Components/Pokedex";
+import Pokemon from "./Components/Pokemon";
+import { Route, Switch } from "react-router-dom";
 
-
-function App() {
-
-const [pokemon, setPokemon]=useState([])
-
-const pokemonApi = ()=>{
-  axios.get('https://pokeapi.co/api/v2/pokemon/')
-  .then((response)=>{
-    let data = response.data.results;
-    console.log(response.data)
-    setPokemon(data);
-  })
-  .catch(error=> console.log(error))
-  
-}
-
-
-
-  return (
-    <div className="App">
-      <h2>Poke Api</h2>
-      
-      <Pokemon pokemon = {pokemon} pokemonApi = {pokemonApi}/>
-    </div>
-  );
-}
+const App = () => (
+  <Switch>
+    <Route 
+    exact 
+    path="/" 
+    render={(props) => <Pokedex {...props} />} />
+    <Route
+      exact
+      path="/:pokemonId"
+      render={(props) => <Pokemon {...props} />}
+    />
+  </Switch>
+);
 
 export default App;

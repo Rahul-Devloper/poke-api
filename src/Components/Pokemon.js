@@ -1,29 +1,19 @@
-import React from 'react'
+import {React, useState} from 'react'
+import { Button } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios'
 import './Pokemon.css'
+import { useParams } from 'react-router-dom';
 
-const Pokemon = ({pokemon, pokemonApi}) => {
+const Pokemon = () => {
 
+  const {pokemonId} = useParams()
 
-  const handlePokemon =(poke)=>{
-    console.log(poke)
-    axios.get(poke.url)
-    .then(response => console.log(response.data.stats[0].stat))
-  }
 
   
-
-
   return (
-    <div className = 'pokemon'>
-      <button onClick = {pokemonApi}>Click to view Details</button>
-      {pokemon.map((poke) => (
-     <div>
-        <li className = 'list'>{poke.name}</li>
-        <li className = 'list'>{poke.url}</li>
-      <button  onClick = {()=> handlePokemon(poke)}>click</button>
-     </div>
-      ))}
+    <div>
+      <h1>{`Welcome to Pokemon ${pokemonId}`}</h1>
     </div>
   )
 }
