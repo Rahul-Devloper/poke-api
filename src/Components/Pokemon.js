@@ -13,7 +13,7 @@ const Pokemon = (props) => {
       .get(`https://pokeapi.co/api/v2/pokemon/${pokemonId}/`)
       .then(function (response) {
         const { data } = response;
-        setPokemon(data)
+        setPokemon(data);
       })
       .catch(function (error) {
         setPokemon(false);
@@ -22,7 +22,7 @@ const Pokemon = (props) => {
 
   const generatePokemonJsx = (pokemon) => {
     const { name, id, species, height, weight, types, sprites } = pokemon;
-    const fullImageUrl = `https://pokeres.bastionbot.org/images/pokemon/${id}.png`;
+    const fullImageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
     const { front_default } = sprites;
     return (
       <>
@@ -67,7 +67,7 @@ const Pokemon = (props) => {
       )}
       {pokemon !== undefined && pokemon && generatePokemonJsx(pokemon)}
       {pokemon === false && <h1>Not Found</h1>}
-      <Button href='/'>Click Here to Go Back </Button>
+      <Button href="/">Click Here to Go Back </Button>
     </div>
   );
 };
